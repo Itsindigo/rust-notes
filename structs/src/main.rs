@@ -24,7 +24,13 @@ fn main() {
     let user2 = User {
         active: false,
         sign_in_count: 0,
-        ..user1 // note that this removes ownership and invalidates user1
+        ..user1 // note that this removes ownership and invalidates user1 
+    };
+
+    let user3 = User {
+        username: String::from("eats_indigo"),
+        email: String::from("eats_indigo@gmail.com"),
+        ..user2 // note this does not invalidate user2 because we have assigned all heap allocated fields.
     };
 
     println!(
@@ -33,5 +39,13 @@ fn main() {
         active = user2.active,
         username = user2.username,
         sign_in_count = user2.sign_in_count
+    );
+
+    println!(
+        "Email: {email}, active: {active}, username: {username}, sign_in_count={sign_in_count}",
+        email = user3.email,
+        active = user3.active,
+        username = user3.username,
+        sign_in_count = user3.sign_in_count
     );
 }
