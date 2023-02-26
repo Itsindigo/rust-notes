@@ -1,9 +1,14 @@
+// A struct
 struct User {
     active: bool,
     username: String,
     email: String,
     sign_in_count: u64,
 }
+
+// A tuple struct
+struct Color(i32, i32, i32); // (r, g, b)
+
 
 fn main() {
     let user1 = User {
@@ -48,4 +53,8 @@ fn main() {
         username = user3.username,
         sign_in_count = user3.sign_in_count
     );
+
+    let black = Color(0, 0, 0);
+
+    println!("R: {}, G: {}, B: {}", black.0, black.1, black.2);
 }
