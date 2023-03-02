@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 fn main() {
-    let mut vec = vec![1, 9, 3, 7, 10, 2, 1, 7, 7, 2, 8, 9, 1, 10, 10, 10, 10];
+    let mut vec = vec![1, 9, 3, 7, 10, 2, 1, 7, 7, 2, 8, 9, 1, 1, 1, 1, 1];
 
     vec.sort();
 
@@ -16,7 +16,6 @@ fn main() {
     let mode_val = mode(&empty_vec_case);
     println!("median: {}, mode: {:?}", med, mode_val);
 }
-
 
 fn median(sorted_v: &Vec<u32>) -> u32 {
     let len = sorted_v.len();
@@ -43,10 +42,25 @@ fn mode(sorted_v: &Vec<u32>) -> u32 {
         *count += 1;
     }
 
-    let mode = map.iter().max_by_key(|&(k, _v)| k);
+    // max by key returns an option, where the value the option is:
+    // Some((key, value)) it's a some tuple. Would be nicer if we could just return Some(key) here.
+    // None
 
+    // the call back function is the criteria for calculating 
+    // the comparison value, if the comparsion value is greatest,
+    // then the K,V pair will be returned as an option
+
+    // if we wanted to destructure the tuple in the function closure:
+    //.max_by_key(|&(k, v)| k);
+    let mode = map.into_iter().max_by_key(|x| x.1);
+    
+
+    // handle the option, None for when no max value was found (empty vector)
     match mode {
+        Some(i) => {
+            println!("{:?}", i);
+            *i.0 // Double ref seems to be because max_by_key() + iter() both return references, creating two layers.
+        },
         None => 0,
-        Some(i) => **i.0
     }
 }
