@@ -42,15 +42,15 @@ fn mode(sorted_v: &Vec<u32>) -> u32 {
         *count += 1;
     }
 
-    // max by key returns an option, where the value the option is:
-    // Some((key, value)) it's a some tuple. Would be nicer if we could just return Some(key) here.
-    // None
+    // max by key returns an Option, where the value the option is:
+    // Some((key, value)). note: it's a tuple wrapped inside.
 
-    // the call back function is the criteria for calculating 
+    // the closure is the criteria for calculating 
     // the comparison value, if the comparsion value is greatest,
-    // then the K,V pair will be returned as an option
+    // then the K,V pair will be returned as an option.
+    // Seems max_by_key tracks largest pair internally until return.
 
-    // if we wanted to destructure the tuple in the function closure:
+    // if we wanted to destructure the tuple in the function closure, we can use this syntax:
     //.max_by_key(|&(k, v)| k);
     let mode = map.into_iter().max_by_key(|x| x.1);
     
@@ -59,7 +59,7 @@ fn mode(sorted_v: &Vec<u32>) -> u32 {
     match mode {
         Some(i) => {
             println!("{:?}", i);
-            *i.0 // Double ref seems to be because max_by_key() + iter() both return references, creating two layers.
+            *i.0 // max_by_key is returning ref, deference to create value that will not be dropped on scope closure.
         },
         None => 0,
     }
